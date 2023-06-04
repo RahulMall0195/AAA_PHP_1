@@ -1,0 +1,94 @@
+link -- http://localhost/fsubmit/Reg.html
+
+________________________________________________________________http://localhost/fsubmit/Reg.html
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Registration Page</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css"></link>
+
+</head>
+
+<body>
+<div id="container">
+ <div class="row col-md-6 col-md-offset-3">
+   <div class="panel panel-primary"></div>
+   <div class="panel-heading text-center">
+    <h1>Registration Form</h1>
+   </div>
+   <div class="panel-body">
+   <form action="connect.php" method="post">
+   <div class="form-group">
+   <label for="firstName">First Name</label>
+   <input type="text" class="form-control" id="firstName" name="firstName"/>
+   </div>
+   <div class="form-group">
+   <label for="lastName">Last Name</label>
+   <input type="text" class="form-control" id="lasttName" name="lastName"/>
+   </div>
+   <div class="form-group">
+   <label for="gender">Gender</label>
+   <label for="male" class="radio-inline"><input type="radio" class="form-control" name="gender" id="male" value="m"/>Male</label>
+   <label for="female" class="radio-inline"><input type="radio" class="form-control" id="female" name="gender" value="f"/>female</label>
+   <label for="other" class="radio-inline"><input type="radio" class="form-control" id="others" name="gender" value="o"/>Others</label>
+   </div>
+   <div class="form-group">
+   <label for="email">Email</label>
+   <input type="text" class="form-control" name="email" id="email"/>
+   </div>
+   <div class="form-group">
+   <label for="password">Password</label>
+   <input type="text" class="form-control" name="password" id="password"/>
+   </div>
+   <div class="form-group">
+   <label for="number">Phone Number</label>
+   <input type="text" class="form-control" name="number" id="number"/>
+   </div>
+   <input type="submit" class="btn btn-primary">
+   </form>
+   </div>
+   <div class="panel-footer text-right">
+   <small>&copy;mr mall</small>
+   </div>
+ </div>
+</div>
+</body>
+
+</html>
+
+
+_______________________________________________________________________________________________________________________________PHP   ------C:\xampp\htdocs\fsubmit\connect.php
+
+
+<?php
+
+$firstName = $_POST['firstName'];
+$lastName = $_POST['lastName'];
+$gender = $_POST['gender'];
+$email = $_POST['email'];
+$password = $_POST['password'];
+$number = $_POST['number'];
+
+
+
+$conn = new mysqli('localhost','root','','test');
+if($conn->connect_error){
+	die('Connection Failed : '.$conn->connect_error);
+}
+else{
+	$stmt = $conn->prepare("insert into registration(firstName,lastName,gender,email,password,number)values(?,?,?,?,?,?)");
+	$stmt->bind_param("sssssi",$firstName,$lastName,$gender,$email,$password,$number);
+	$stmt->execute();
+	echo "registration Successfully...";
+	$stmt->close();
+	$conn->close();
+}
+
+?>
+
+
+_________________________________________________________________________________________________________________________
+
+
