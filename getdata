@@ -1,0 +1,73 @@
+http://localhost/fsubmit/getdata.php
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Display</title>
+</head>
+<body>
+
+<?php
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Database connection parameters
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$database = 'youtubeuserdata';
+
+// Create a connection to MySQL
+$conn = new mysqli($host, $user, $password, $database);
+
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// SQL query to retrieve data from the userinfodata table
+$query = "SELECT * FROM userinfodata";
+$result = $conn->query($query);
+
+// Check if there are rows in the result
+if ($result->num_rows > 0) {
+    // Output data in a table
+    echo "<table border='1'>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Comment</th>
+            </tr>";
+
+    // Output data of each row
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>
+                <td>" . $row["id"] . "</td>
+                <td>" . $row["user"] . "</td>
+                <td>" . $row["email"] . "</td>
+                <td>" . $row["mobile"] . "</td>
+                <td>" . $row["comment"] . "</td>
+              </tr>";
+    }
+
+    echo "</table>";
+} else {
+    echo "No records found";
+}
+
+// Close the connection
+$conn->close();
+?>
+
+</body>
+</html>
+
+_________________________________________________________________________
+
+
